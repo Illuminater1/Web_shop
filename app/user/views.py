@@ -1,6 +1,6 @@
 from flask import Blueprint, flash, redirect, url_for, render_template
 from flask_login import login_user, logout_user, current_user
-from app.user.forms import LoginForm
+from app.user.forms import LoginForm, RegistrationForm
 from app.user.models import User
 
 blueprint = Blueprint('user', __name__,
@@ -8,10 +8,24 @@ blueprint = Blueprint('user', __name__,
                       template_folder='templates/user')
 
 
+
+@blueprint.route("/register", methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('/.index'))
+    form = RegistrationForm()
+    title = "Регистрация"
+
+    return render_template('user/register.html',
+                           page_title=title, form=form)
+
+
+
+
 @blueprint.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('/.index'))
     form = LoginForm()
     page_title = "Авторизация"
 
