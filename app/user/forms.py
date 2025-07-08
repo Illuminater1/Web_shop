@@ -1,7 +1,10 @@
+from flask import Blueprint
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, EmailField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired
 
+
+blueprint = Blueprint('user', __name__, url_prefix='/user')
 
 class LoginForm(FlaskForm):
     username = StringField("Имя пользователя", validators=[DataRequired()], render_kw={"class": "form-control"})
