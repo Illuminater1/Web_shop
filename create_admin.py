@@ -31,3 +31,6 @@ with app.app_context():
     db.session.commit()
     print(f'Добавлен новый пользователь с id={new_user.id}')
 
+
+
+
