@@ -28,11 +28,11 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Зарегистрироваться', render_kw={"class": "btn btn-primary w-100"})
 
     def validate_username(self, username):
-        user = User.query.filter_by(username=username.data).first()
+        user = User.query.filter_by(User.username.ilike(username)).first()
         if user is not None:
             raise ValidationError('Это занято. Пожалуйста введите другое имя')
 
     def validate_email(self, email):
-        user = User.query.filter_by(email=email.data).first()
+        user = User.query.filter_by(User.email.ilike(email)).first()
         if user is not None:
             raise ValidationError('Этот Email уже используется, введите другой')

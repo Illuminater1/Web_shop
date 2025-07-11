@@ -13,7 +13,7 @@ blueprint = Blueprint('user', __name__,
 def register():
     if current_user.is_authenticated:
         flash('Вы уже авторизованы')
-        return redirect(url_for('/.index'))
+        return redirect(url_for('index'))
 
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -26,7 +26,7 @@ def register():
             db.session.rollback()
             flash(f"Произошла ошибка {str(e)}, попробуйте еще раз")
         flash("Вы успешно зарегистрировались")
-        return redirect(url_for('/.index'))
+        return redirect(url_for('index'))
 
     return render_template('user/register.html',
                            page_title="Регистрация", form=form)
@@ -35,7 +35,7 @@ def register():
 @blueprint.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('/.index'))
+        return redirect(url_for('index'))
     form = LoginForm()
     page_title = "Авторизация"
 
@@ -52,7 +52,7 @@ def process_login():
             login_user(user, remember=form.remember_me.data)
             flash("Вы успешно вошли на сайт")
 
-            return redirect(url_for("/.index"))
+            return redirect(url_for("index"))
 
         flash("Неправильный логин или пароль")
     return redirect(url_for("user.login"))
@@ -62,5 +62,5 @@ def process_login():
 def logout():
     logout_user()
     flash('Вы успешно вышли')
-    return redirect(url_for('/.index'))
+    return redirect(url_for('index'))
 

@@ -9,6 +9,8 @@ from app.user.views import blueprint as user_blueprint
 from app.shop.views import blueprint as shop_blueprint
 from app.admin.views import blueprint as admin_blueprint
 from app.main.views import blueprint as main_blueprint
+from app.product.views import blueprint as product_blueprint
+
 
 
 def create_app():
@@ -26,6 +28,7 @@ def create_app():
     app.register_blueprint(shop_blueprint)
     app.register_blueprint(admin_blueprint)
     app.register_blueprint(main_blueprint)
+    app.register_blueprint(product_blueprint)
 
     @login_manager.user_loader
     def load_user(user_id):
