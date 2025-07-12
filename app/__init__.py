@@ -2,7 +2,8 @@ from flask import Flask, render_template
 from flask_login import LoginManager
 
 from app.user.forms import LoginForm
-from app.shop.models import db, Category, Product, Product_image
+from app.shop.models import db, Category, OrderedProduct
+from app.product.models import  Product
 from app.config import SECRTET_KEY
 from app.user.models import User, Order
 from app.user.views import blueprint as user_blueprint

@@ -1,5 +1,6 @@
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 
 from app.models import db
 
@@ -12,6 +13,9 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(128))
     role = db.Column(db.String(10), default='user')
     orders = db.relationship('Order', backref="user")
+
+    carts = db.relationship("Cart", back_populates="user")
+    orders = db.relationship("Order", back_populates="user")
 
     @property
     def is_admin(self):
@@ -30,11 +34,13 @@ class User(db.Model, UserMixin):
 class Order(db.Model):
     __tablename__ = 'orders'
     id = db.Column(db.Integer, primary_key=True)
-    status = db.Column(db.String, nullable=False)
-    amount = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, index=True)
-    product_id = db.Column(db.Integer, db.ForeignKey('shop.id'), nullable=False, index=True)
-    product = db.relationship('Product', back_populates='orders')
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    address = db.Column(db.String(200))
+    status = db.Column(db.String)
+
+    user = db.relationship("User", back_populates="orders")
+    ordered_products = db.relationship("OrderedProduct", back_populates="order")
 
     def __repr__(self):
-        return f"<Оrder {self.id} - amount: {self.amount}>"
+        return f"<Оrder - {self.id}, user: {self.user_id}>"
