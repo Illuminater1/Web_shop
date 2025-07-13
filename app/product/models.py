@@ -9,7 +9,10 @@ class Product(db.Model):
     image = db.Column(db.String(200))
     stocks = db.Column(db.Integer, default=0)
     price = db.Column(db.Float, nullable=False)
-    category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
+
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)
+
+    carts = db.relationship('Cart', back_populates='product')
 
     category = db.relationship('Category', back_populates='products')
 

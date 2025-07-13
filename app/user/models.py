@@ -12,9 +12,8 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(120), nullable=False)
     password = db.Column(db.String(128))
     role = db.Column(db.String(10), default='user')
-    orders = db.relationship('Order', backref="user")
 
-    carts = db.relationship("Cart", back_populates="user")
+    cart = db.relationship("Cart", back_populates="user")
     orders = db.relationship("Order", back_populates="user")
 
     @property

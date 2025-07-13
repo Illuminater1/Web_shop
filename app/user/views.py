@@ -2,7 +2,7 @@ from flask import Blueprint, flash, redirect, url_for, render_template
 from flask_login import login_user, logout_user, current_user
 from app.user.forms import LoginForm, RegistrationForm
 from app.user.models import User, db
-
+from sqlalchemy.exc import SQLAlchemyError
 
 blueprint = Blueprint('user', __name__,
                       url_prefix='/user',
@@ -22,7 +22,7 @@ def register():
         try:
             db.session.add(new_user)
             db.session.commit()
-        except Exception as e:
+        except SQLAlchemyError as e:
             db.session.rollback()
             flash(f"Произошла ошибка {str(e)}, попробуйте еще раз")
         flash("Вы успешно зарегистрировались")

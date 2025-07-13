@@ -6,9 +6,8 @@ app/config.py
 # C extensions
 *.so
 
-run.txt
+run.bat
 
-dbshop.db
 
 # Distribution / packaging
 .Python

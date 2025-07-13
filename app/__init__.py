@@ -1,11 +1,12 @@
 from flask import Flask, render_template
 from flask_login import LoginManager
+from flask_migrate import Migrate
 
 from app.user.forms import LoginForm
-from app.shop.models import db, Category, OrderedProduct
-from app.product.models import  Product
-from app.config import SECRTET_KEY
 from app.user.models import User, Order
+from app.product.models import  Product
+from app.shop.models import db, Category, OrderedProduct
+from app.config import SECRET_KEY
 from app.user.views import blueprint as user_blueprint
 from app.shop.views import blueprint as shop_blueprint
 from app.admin.views import blueprint as admin_blueprint
@@ -17,9 +18,8 @@ from app.product.views import blueprint as product_blueprint
 def create_app():
     app = Flask(__name__)
     app.config.from_pyfile("config.py")
-    app.config['SECRET_KEY'] = SECRTET_KEY
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
+    migrate = Migrate(app, db)
 
     login_manager = LoginManager()
     login_manager.init_app(app)
