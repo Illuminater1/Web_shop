@@ -1,6 +1,6 @@
 from flask import render_template, Blueprint
 
-blueprint = Blueprint('/', __name__)
+blueprint = Blueprint('main', __name__)
 
 
 @blueprint.route("/", methods=['POST', 'GET'])

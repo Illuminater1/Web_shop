@@ -8,11 +8,11 @@
     </div>
 
     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-      <li><a href="{{ url_for('/.index') }}" class="nav-link px-2 link-secondary">Главная</a></li>
+      <li><a href="{{ url_for('main.index') }}" class="nav-link px-2 link-secondary">Главная</a></li>
       <li><a href="{{ url_for('shop.shop') }}" class="nav-link px-2">Магазин</a></li>
-      <li><a href="{{ url_for('/.contacts') }}" class="nav-link px-2">Контакты</a></li>
-      <li><a href="{{ url_for('/.questions') }}" class="nav-link px-2">FAQs</a></li>
-      <li><a href="{{ url_for('/.about') }}" class="nav-link px-2">О нас</a></li>
+      <li><a href="{{ url_for('main.contacts') }}" class="nav-link px-2">Контакты</a></li>
+      <li><a href="{{ url_for('main.questions') }}" class="nav-link px-2">FAQs</a></li>
+      <li><a href="{{ url_for('main.about') }}" class="nav-link px-2">О нас</a></li>
     </ul>
       <div class="col-md-3 text-end">
           {% if current_user.is_anonymous %}
