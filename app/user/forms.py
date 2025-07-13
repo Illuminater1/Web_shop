@@ -10,7 +10,8 @@ blueprint = Blueprint('user', __name__, url_prefix='/user')
 
 class LoginForm(FlaskForm):
     username = StringField("Имя пользователя", validators=[DataRequired()], render_kw={"class": "form-control"})
-    password = StringField("Пароль", validators=[DataRequired(message="Email обязателен"), Email(message="Неверный формат")],
+    password = StringField("Пароль",
+                           validators=[DataRequired(message="Email обязателен"), Email(message="Неверный формат")],
                            render_kw={"class": "form-control"})
     submit = SubmitField("Отправить", render_kw={"class": "btn btn-primary w-100 py-2"})
     remember_me = BooleanField("Запомнить меня", default=True,
@@ -19,7 +20,8 @@ class LoginForm(FlaskForm):
 
 class RegistrationForm(FlaskForm):
     username = StringField('Введите имя', validators=[DataRequired()], render_kw={"class": "form-control"})
-    email = EmailField('Введите Email', validators=[DataRequired(), Email('Введен некоректный Email')], render_kw={"class": "form-control"})
+    email = StringField('Введите Email', validators=[DataRequired(), Email('Введен некоректный Email')],
+                       render_kw={"class": "form-control"})
     password = PasswordField('Введите пароль', validators=[DataRequired(), Length(min=6)],
                              render_kw={"class": "form-control", "placeholder": "Не менее 6 символов"})
     password2 = PasswordField('Повторите пароль',
@@ -28,11 +30,11 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Зарегистрироваться', render_kw={"class": "btn btn-primary w-100"})
 
     def validate_username(self, username):
-        user = User.query.filter_by(User.username.ilike(username)).first()
-        if user is not None:
-            raise ValidationError('Это занято. Пожалуйста введите другое имя')
+        user_count = User.query.filter(User.username.ilike(username.data)).first()
+        if user_count:
+            raise ValidationError('Пользователь с таким именем уже существует')
 
     def validate_email(self, email):
-        user = User.query.filter_by(User.email.ilike(email)).first()
-        if user is not None:
-            raise ValidationError('Этот Email уже используется, введите другой')
+        user_count = User.query.filter(User.email.ilike(email.data)).first()
+        if user_count:
+            raise ValidationError('Пользователь с таким Email уже существует')

@@ -9,8 +9,8 @@ class User(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    username = db.Column(db.String(120), nullable=False)
-    password = db.Column(db.String(128))
+    username = db.Column(db.String(), nullable=False)
+    password = db.Column(db.String())
     role = db.Column(db.String(10), default='user')
 
     cart = db.relationship("Cart", back_populates="user")

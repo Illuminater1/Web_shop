@@ -9,33 +9,37 @@ blueprint = Blueprint('user', __name__,
                       template_folder='templates/user')
 
 
-@blueprint.route("/register", methods=['GET', 'POST'])
+@blueprint.route("/register", methods=['GET','POST'])
 def register():
     if current_user.is_authenticated:
         flash('Вы уже авторизованы')
-        return redirect(url_for('index'))
-
+        return redirect(url_for('main.index'))
     form = RegistrationForm()
+
     if form.validate_on_submit():
-        new_user = User(email=form.username.data, username=form.email.data)
-        new_user.set_password(form.password.data)
         try:
+            new_user = User(username=form.username.data, email=form.email.data)
+            new_user.set_password(form.password.data)
+
             db.session.add(new_user)
+
             db.session.commit()
+            flash("Вы успешно зарегистрировались")
+            return redirect(url_for("user.login"))
+
         except SQLAlchemyError as e:
             db.session.rollback()
-            flash(f"Произошла ошибка {str(e)}, попробуйте еще раз")
-        flash("Вы успешно зарегистрировались")
-        return redirect(url_for('index'))
+            flash("Произошла ошибка при записи в базу данных")
+            return redirect(url_for('user.register'))
 
     return render_template('user/register.html',
-                           page_title="Регистрация", form=form)
+                           page_title='Регистрация', form=form)
 
 
 @blueprint.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('/.index'))
     form = LoginForm()
     page_title = "Авторизация"
 
@@ -52,7 +56,7 @@ def process_login():
             login_user(user, remember=form.remember_me.data)
             flash("Вы успешно вошли на сайт")
 
-            return redirect(url_for("index"))
+            return redirect(url_for("/.index"))
 
         flash("Неправильный логин или пароль")
     return redirect(url_for("user.login"))
@@ -62,5 +66,5 @@ def process_login():
 def logout():
     logout_user()
     flash('Вы успешно вышли')
-    return redirect(url_for('index'))
+    return redirect(url_for('main.index'))
 
