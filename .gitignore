@@ -2,9 +2,14 @@
 __pycache__/
 *.py[codz]
 *$py.class
-config.py
+app/config.py
 # C extensions
 *.so
+
+create_product.py
+run.bat
+
+*db
 
 # Distribution / packaging
 .Python
