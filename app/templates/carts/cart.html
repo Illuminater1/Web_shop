@@ -10,33 +10,39 @@
     <div class=" bg-white p-4 mb-4 mx-2 rounded custom-shadow">
         <h3 class="text-center mb-4">Корзина</h3>
         <div class="container" id="cart-items-container">
-            <!-- Разметка корзины -->
+            {% if cart_items %}
+            {% for item in cart_items %}
             <div class="card mb-3 text-bg-light shadow-lg">
                 <div class="card-header">
-                    <h5 class="card-title">Товар</h5>
+                    <h5 class="card-title">{{ item.product.name }}</h5>
                 </div>
+
                 <ul class="list-group list-group-flush">
+
                     <li class="list-group-item">
                         <div class="row text-center">
                             <div class="col p-0">
                                 <div class="input-group">
+
                                     <span class="input-group-btn">
-                                        <button type="button"
-                                                class="btn btn-primary btn-sm decrement"
-                                                data-cart-id=""
+                                        <button type="button" class="btn btn-primary btn-sm decrement"
+                                                data-cart-id="{{ url_for('cart.update_cart') }}"
                                                 data-cart-change-url="">-</button>
                                     </span>
-                                    <input type="text" class="form-control number" value="1" readonly="">
+
+                                    <input type="text" class="form-control number" value="{{ item.quantity }}" readonly>
+
                                     <span class="input-group-btn">
                                         <button type="button"
                                                 class="btn btn-primary btn-sm increment"
-                                                data-cart-id=""
+                                                data-cart-id="{{ url_for('cart.update_cart') }}"
                                                 data-cart-change-url="">+</button>
                                     </span>
+
                                 </div>
                             </div>
                             <div class="col p-0">
-                                <p>x 100.00 = </p>
+                                <p>{{ item.product.price }}</p>
                             </div>
                             <div class="col p-0"><strong>100.00 $</strong></div>
                             <div class="col p-0">
@@ -49,6 +55,7 @@
                     </li>
                 </ul>
             </div>
+                        {% endfor %}
             <div class="card mb-3 shadow-lg">
                 <div class="card-footer">
                     <p class="float-left">Итого <strong>1</strong> товар(а) на сумму</p>
@@ -62,5 +69,16 @@
         </a>
     </div>
 </div>
+{% else %}
+    <div class="alert alert-info">
+        Ваша корзина пуста
+    </div>
+    <div class="text-center">
+        <a href="{{ url_for('shop.shop') }}" class="btn btn-primary">
+            Вернуться к покупкам
+        </a>
+    </div>
+{% endif %}
+
 {{ content }}
 {% endblock %}
