@@ -22,7 +22,7 @@
                     {% endif %}
 
                     <a class="btn btn-outline-primary" href="{{ url_for('user.logout') }}" role="button">Выйти</a>
-                    <a class="btn btn-outline-primary" href="" role="button">Личный кабинет</a>
+                    <a class="btn btn-outline-primary" href="{{ url_for('cart.cart') }}" role="button">Корзина</a>
 
                 {% else %}
                     <a class="btn btn-outline-primary" href="{{ url_for('user.login') }}" role="button">Войти</a>

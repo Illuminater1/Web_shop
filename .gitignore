@@ -6,8 +6,10 @@ app/config.py
 # C extensions
 *.so
 
+create_product.py
 run.bat
 
+*db
 
 # Distribution / packaging
 .Python
