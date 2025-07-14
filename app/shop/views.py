@@ -15,10 +15,10 @@ def shop():
 
 
 
-# @blueprint.route('/<product_id>')
-# def product():
-#     products_list = Product.query.order_by(Product.id).all
-#     title = f"Страница продукта {products_list['id']}"
-#     content = 'Страничка продукта'
-#     return render_template('shop/product.html',
-#                            page_title=title, content=content)
+@blueprint.route('/<int:product_id>')
+def product(product_id):
+    product = Product.query.get_or_404(product_id)
+    title = f"Страница продукта {product.slug}"
+    content = 'Страничка продукта'
+    return render_template('shop/product.html',
+                           page_title=title, content=content, product=product)
