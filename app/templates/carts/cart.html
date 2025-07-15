@@ -6,7 +6,7 @@
 
 
 {% block content %}
-<div class="row justify-content-center">
+<div class="card mb-3 text-bg-light shadow-lg">
     <div class=" bg-white p-4 mb-4 mx-2 rounded custom-shadow">
         <h3 class="text-center mb-4">Корзина</h3>
         <div class="container" id="cart-items-container">
@@ -17,49 +17,48 @@
                     <h5 class="card-title">{{ item.product.name }}</h5>
                 </div>
 
-                <ul class="list-group list-group-flush">
 
-                    <li class="list-group-item">
-                        <div class="row text-center">
-                            <div class="col p-0">
-                                <div class="input-group">
+        <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <div class="row text-center">
+                <div class="col p-0">
+                    <div class="input-group">
 
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-primary btn-sm decrement"
-                                                data-cart-id="{{ url_for('cart.update_cart') }}"
-                                                data-cart-change-url="">-</button>
-                                    </span>
+                        <form action="{{ url_for('cart.remove_from_cart', product_id=item.product.id) }}" method="POST" class="input-group-btn">
+                        {{ form.submit_decrease }}
+                        </form>
 
-                                    <input type="text" class="form-control number" value="{{ item.quantity }}" readonly>
+                        <input type="text" class="form-control number" value={{ item.quantity }} readonly>
 
-                                    <span class="input-group-btn">
-                                        <button type="button"
-                                                class="btn btn-primary btn-sm increment"
-                                                data-cart-id="{{ url_for('cart.update_cart') }}"
-                                                data-cart-change-url="">+</button>
-                                    </span>
+                        <form action="{{  url_for('cart.add_to_cart', product_id=item.product.id)  }}" method="POST" class="input-group-btn">
+                        {{ form.submit_increase }}
+                        </form>
 
-                                </div>
-                            </div>
-                            <div class="col p-0">
-                                <p>{{ item.product.price }}</p>
-                            </div>
-                            <div class="col p-0"><strong>100.00 $</strong></div>
-                            <div class="col p-0">
-                                <a href="#" class="remove-from-cart" data-cart-id="">
-                                    <img class="mx-1" src="" alt="Catalog Icon" width="16"
-                                         height="16">
-                                </a>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+                    </div>
+                </div>
+                <div class="col p-0">
+                    <p>x {{ item.product.price }} = </p>
+                </div>
+                <div class="col p-0">{{ item.product.price * item.quantity }} </div>
+                <div class="col p-0">
+                    <form action="{{ url_for('cart.delete_product', product_id=item.product.id) }}" method="POST">
+                        <button type="submit" class="btn btn-link p-0 m-0">
+                        <img class="mx-1" src="{{ url_for('static', filename='img/del_cart.png') }}"
+                            alt="Catalog Icon" width="20" height="20">
+                        </button>
+                    </form>
+                </div>
             </div>
-                        {% endfor %}
+        </li>
+    </ul>
+
+
+            </div>
+            {% endfor %}
             <div class="card mb-3 shadow-lg">
                 <div class="card-footer">
-                    <p class="float-left">Итого <strong>1</strong> товар(а) на сумму</p>
-                    <h4 class="float-left"><strong>100.00 $</strong></h4>
+                    <p class="float-left">Итого {{ total }} товар(а) на сумму</p>
+                    <h4 class="float-left"><strong>{{ amount }} P</strong></h4>
                 </div>
             </div>
             <!-- Закончилась разметка корзины -->
@@ -70,14 +69,14 @@
     </div>
 </div>
 {% else %}
-    <div class="alert alert-info">
-        Ваша корзина пуста
-    </div>
-    <div class="text-center">
-        <a href="{{ url_for('shop.shop') }}" class="btn btn-primary">
-            Вернуться к покупкам
-        </a>
-    </div>
+<div class="alert alert-info">
+    Ваша корзина пуста
+</div>
+<div class="text-center">
+    <a href="{{ url_for('shop.shop') }}" class="btn btn-primary">
+        Вернуться к покупкам
+    </a>
+</div>
 {% endif %}
 
 {{ content }}
