@@ -28,32 +28,35 @@ def cart():
                            amount=amount, form=form, total=total_product)
 
 
-def get_user_cart(user_id):
-    pass
+def get_cart_item(product_id):
+    try:
+        cart_item = Cart.query.filter_by(user_id=current_user.id,
+                                     product_id=product_id).first()
+        return cart_item
+    except:
+        return flash('Товар не найден')
+
+
 
 
 @blueprint.route("/add/<int:product_id>", methods=['POST'])
 @login_required
 def add_to_cart(product_id):
-    product = Product.query.get(product_id)
-    quantity = request.form.get('quantity', 1)
-
-    cart_item = Cart.query.filter_by(user_id=current_user.id,
-                                     product_id=product_id).first()
+    cart_item = get_cart_item(product_id)
 
     if cart_item:
-        cart_item.quantity += quantity
+        cart_item.quantity += 1
     else:
         cart_item = Cart(user_id=current_user.id,
                          product_id=product_id,
-                         quantity=quantity)
-        flash(f"Товар {product.name} добавлен в корзину")
+                         quantity=1)
+        flash(f"Товар {cart_item.product.name} добавлен в корзину")
         db.session.add(cart_item)
         db.session.commit()
         return redirect(request.referrer or url_for('shop.shop', product_id=product_id))
 
     db.session.commit()
-    flash(f"Количество {product.name} увеличено")
+    flash(f"Количество {cart_item.product.name} увеличено")
     return redirect(request.referrer or url_for('shop.shop', product_id=product_id))
 
 
@@ -61,20 +64,17 @@ def add_to_cart(product_id):
 @blueprint.route("/remove/<int:product_id>", methods=['POST'])
 @login_required
 def remove_from_cart(product_id):
-    product = Product.query.get(product_id)
-
-    cart_item = Cart.query.filter_by(user_id=current_user.id,
-                                     product_id=product_id).first()
+    cart_item = get_cart_item(product_id)
 
     if cart_item.quantity > 1:
         cart_item.quantity -= 1
-        flash (f"Количество {product.name} уменьшено")
+        flash (f"Количество {cart_item.product.name} уменьшено")
     else:
         db.session.delete(cart_item)
-        flash (f"Товар {product.name} удалён из корзины")
+        flash (f"Товар {cart_item.product.name} удалён из корзины")
 
     db.session.commit()
-    return redirect(request.referrer or url_for('shop.shop', product_id=product_id))
+    return redirect(request.referrer or url_for('shop.shop'))
 
 
 
@@ -82,14 +82,12 @@ def remove_from_cart(product_id):
 @blueprint.route("/delete/<int:product_id>", methods=['POST'])
 @login_required
 def delete_product(product_id):
-    product = Product.query.get(product_id)
-    cart_item = Cart.query.filter_by(user_id=current_user.id,
-                                     product_id=product_id).first()
+    cart_item = get_cart_item(product_id)
 
     if cart_item:
         db.session.delete(cart_item)
         db.session.commit()
-        flash(f"Товар {product.name} удалён из корзины")
+        flash(f"Товар {cart_item.product.name} удалён из корзины")
 
     else:
         flash("Такого товара нет в вашей корзине")
