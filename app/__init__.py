@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from app.db import db
 from app.shop.models import Category, Product
 from app.carts.models import Cart
+from app.orders.models import Order, OrderedProduct
 from app.user.models import User
 
 from app.user.forms import LoginForm
@@ -14,6 +15,7 @@ from app.shop.views import blueprint as shop_blueprint
 from app.admin.views import blueprint as admin_blueprint
 from app.main.views import blueprint as main_blueprint
 from app.carts.views import blueprint as cart_blueprint
+from app.orders.views import blueprint as orders_blueprint
 
 
 def create_app():
@@ -32,6 +34,7 @@ def create_app():
     app.register_blueprint(admin_blueprint)
     app.register_blueprint(main_blueprint)
     app.register_blueprint(cart_blueprint)
+    app.register_blueprint(orders_blueprint)
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -39,6 +42,6 @@ def create_app():
 
     @app.errorhandler(404)
     def page_error(error):
-        return render_template('page_error.html')
+        return render_template('page_error.html'), 404
 
     return app

@@ -1,6 +1,6 @@
-from flask import render_template, Blueprint, redirect, url_for
+from flask import render_template, Blueprint
 
-from app.shop.models import Product, Category
+from app.shop.models import Product
 
 blueprint = Blueprint('shop', __name__, url_prefix='/shop', template_folder='templates/shop')
 

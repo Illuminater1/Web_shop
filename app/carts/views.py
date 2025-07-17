@@ -1,7 +1,6 @@
 from flask_login import current_user, login_required
 from flask import Blueprint, flash, redirect, url_for, render_template, request
 
-from app.shop.models import Product, OrderedProduct
 from app.db import db
 from app.carts.models import Cart
 from app.carts.forms import CartForm
@@ -50,9 +49,9 @@ def add_to_cart(product_id):
         cart_item = Cart(user_id=current_user.id,
                          product_id=product_id,
                          quantity=1)
-        flash(f"Товар {cart_item.product.name} добавлен в корзину")
         db.session.add(cart_item)
         db.session.commit()
+        flash(f"Товар {cart_item.product.name} добавлен в корзину")
         return redirect(request.referrer or url_for('shop.shop', product_id=product_id))
 
     db.session.commit()
@@ -70,8 +69,9 @@ def remove_from_cart(product_id):
         cart_item.quantity -= 1
         flash (f"Количество {cart_item.product.name} уменьшено")
     else:
+        product_name = cart_item.product.name
         db.session.delete(cart_item)
-        flash (f"Товар {cart_item.product.name} удалён из корзины")
+        flash (f"Товар {product_name} удалён из корзины")
 
     db.session.commit()
     return redirect(request.referrer or url_for('shop.shop'))
@@ -85,9 +85,10 @@ def delete_product(product_id):
     cart_item = get_cart_item(product_id)
 
     if cart_item:
+        product_name = cart_item.product.name
         db.session.delete(cart_item)
         db.session.commit()
-        flash(f"Товар {cart_item.product.name} удалён из корзины")
+        flash(f"Товар {product_name} удалён из корзины")
 
     else:
         flash("Такого товара нет в вашей корзине")

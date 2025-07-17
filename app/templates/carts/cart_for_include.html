@@ -1,14 +1,6 @@
-{% extends 'base.html' %}
-
-{% block title %}
-{{ page_title }}
-{% endblock %}
-
-
-{% block content %}
 <div class="card mb-3 text-bg-light shadow-lg">
     <div class=" bg-white p-4 mb-4 mx-2 rounded custom-shadow">
-        <h3 class="text-center mb-4">Корзина</h3>
+
         <div class="container" id="cart-items-container">
             {% if cart_items %}
             {% for item in cart_items %}
@@ -28,7 +20,7 @@
                         {{ form.submit_decrease }}
                         </form>
 
-                        <input type="text-center" class="form-control number" value={{ item.quantity }} readonly>
+                        <input type="row text-center" class="form-control number" value={{ item.quantity }} readonly>
 
                         <form action="{{  url_for('cart.add_to_cart', product_id=item.product.id)  }}" method="POST" class="input-group-btn">
                         {{ form.submit_increase }}
@@ -62,13 +54,7 @@
                 </div>
             </div>
             <!-- Закончилась разметка корзины -->
-        </div>
-        <form action="{{ url_for('order.create_order')}}">
-        <button type="submit" class="btn btn-link p-0 m-0">
-            {{ form.submit_order }}
-        </button>
-        </form>
-    </div>
+
 </div>
 {% else %}
 <div class="alert alert-info text-center">
@@ -80,5 +66,3 @@
     </a>
 </div>
 {% endif %}
-
-{% endblock %}
