@@ -19,56 +19,57 @@
             <div class="card-body">
                 <form>
                     <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="id_first_name" class="form-label">Имя*:</label>
-                            <input type="text" class="form-control" id="id_first_name" name="first_name" required="">
+                        <div>
+                            <div class="form-group col-md-6 mb-3">
+                                {{ order_form.first_name.label }}
+                                {{ order_form.first_name() }}
+                            </div>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="id_last_name" class="form-label">Фамилия*:</label>
-                            <input type="text" class="form-control" id="id_last_name" name="last_name" required="">
+
+                        <div>
+                            <div class="form-group col-md-6 mb-3">
+                                {{ order_form.last_name.label }}
+                                {{ order_form.last_name() }}
+                            </div>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="id_phone_number" class="form-label">Номер телефона*:</label>
-                            <input type="text" class="form-control" id="id_phone_number" name="phone_number"
-                                   placeholder="В формате: XXX-XXX-XX-XX" required="">
+                        <div>
+                            <div class="form-group col-md-6 mb-3">
+                                {{ order_form.phone_number.label }}
+                                {{ order_form.phone_number() }}
+                            </div>
                         </div>
                         <div class="col-md-12 mb-3">
-                            <label for="delivery" class="form-label">Способ доставки: </label>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="requires_delivery"
-                                       id= value="1" checked="">
-                                <label class="form-check-label" for="id_requires_delivery">Нужна
-                                    доставка</label>
+
+                            <div>
+                                {{ order_form.delivery_method.label }}
+
+                                {% for subfield in order_form.delivery_method %}
+                                <div class="form-check form-check-inline">
+                                    {{ subfield(class="form-check-input") }}
+                                    {{ subfield.label(class="form-check-label") }}
+                                </div>
+                                {% endfor %}
+
                             </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="requires_delivery"
-                                       id= value="0">
-                                <label class="form-check-label" for="id_requires_delivery">Самовывоз</label>
+                            {% if order_form.delivery_method.data == "delivery" %}
+                            <div class="mb-3" id="deliveryAddressField">
+                                {{ order_form.address }}
                             </div>
-                        </div>
-                        <div class="mb-3" id="deliveryAddressField">
-                            <label for="id_delivery_address" class="form-label">Адрес
-                                доставки*:</label>
-                            <textarea class="form-control" id="id_delivery_address" name="delivery_address"
-                                      rows="2"></textarea>
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label class="form-label">Способ оплаты: </label>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="payment_on_get"
-                                        value="0" checked="">
-                                <label class="form-check-label" for="id_payment_on_get">Оплата
-                                    картой</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="payment_on_get"
-                                        value="1">
-                                <label class="form-check-label" for="id_payment_on_get">Наличными/картой
-                                    при плучении</label>
+                            {% endif %}
+                            <div class="col-md-12 mb-3">
+
+                                {{ order_form.pay_method.label }}
+                                    {% for subfield in order_form.pay_method %}
+                                <div class="form-check form-check-inline">
+                                    {{ subfield(class="form-check-input") }}
+                                    {{ subfield.label(class="form-check-label") }}
+                                </div>
+                                    {% endfor %}
                             </div>
                         </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Оформить заказ</button>
+                        <form action="">
+                            {{ order_form.create_order() }}
+                        </form>
                 </form>
             </div>
         </div>

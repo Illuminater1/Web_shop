@@ -4,6 +4,7 @@ from flask_login import current_user
 from app.shop.models import Product, Category
 from app.carts.models import Cart
 from app.carts.forms import CartForm
+from app.orders.forms import OrderForm
 
 
 
@@ -13,7 +14,8 @@ blueprint = Blueprint('order', __name__, url_prefix='/order')
 @blueprint.route('/create-order', methods=['GET','POST'])
 def create_order():
     user = current_user.id
-    form = CartForm()
+    cart_form = CartForm()
+    order_form = OrderForm()
     cart_items = Cart.query.filter_by(user_id=user).all()
 
     amount = 0
@@ -23,4 +25,4 @@ def create_order():
         amount += item.product.price * item.quantity
 
     return render_template('orders/create_order.html', content='Заказ', cart_items=cart_items,
-                           form=form, total=total_product, amount=amount)
+                           form=cart_form, order_form=order_form, total=total_product, amount=amount)
