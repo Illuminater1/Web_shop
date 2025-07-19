@@ -13,6 +13,7 @@
     </div>
     <!-- Детали заказа -->
     <div class="container">
+    {% if cart_items %}
         {% include 'carts/cart_for_include.html'%}
         <h3 class="text-center">Детали заказа</h3>
         <div class="card mb-3">
@@ -59,21 +60,33 @@
                             <div class="col-md-12 mb-3">
 
                                 {{ order_form.pay_method.label }}
-                                    {% for subfield in order_form.pay_method %}
+                                {% for subfield in order_form.pay_method %}
                                 <div class="form-check form-check-inline">
                                     {{ subfield(class="form-check-input") }}
                                     {{ subfield.label(class="form-check-label") }}
                                 </div>
-                                    {% endfor %}
+                                {% endfor %}
                             </div>
                         </div>
                         <form action="">
                             {{ order_form.create_order() }}
                         </form>
+                    </div>
                 </form>
             </div>
-        </div>
+        </div>*эти поля должны быть заполнены
     </div>
+{% else %}
+<div class="alert alert-info text-center">
+    Ваша корзина пуста
+</div>
+<div class="text-center">
+    <a href="{{ url_for('shop.shop') }}" class="btn btn-primary">
+        Вернуться к покупкам
+    </a>
+</div>
+{% endif %}
+
 </div>
 
 

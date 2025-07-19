@@ -6,55 +6,15 @@
 
 
 {% block content %}
+
 <div class="card mb-3 text-bg-light shadow-lg">
     <div class=" bg-white p-4 mb-4 mx-2 rounded custom-shadow">
         <h3 class="text-center mb-4">Корзина</h3>
         <div class="container" id="cart-items-container">
-            {% if cart_items %}
-            {% for item in cart_items %}
-            <div class="card mb-3 text-bg-light shadow-lg">
-                <div class="card-header">
-                    <h5 class="card-title">{{ item.product.name }}</h5>
-                </div>
+        {% if cart_items %}
+            {% include 'carts/cart_for_include.html'%}
 
 
-        <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-            <div class="row text-center">
-                <div class="col p-0">
-                    <div class="input-group">
-
-                        <form action="{{ url_for('cart.remove_from_cart', product_id=item.product.id) }}" method="POST" class="input-group-btn">
-                        {{ form.submit_decrease }}
-                        </form>
-
-                        <input type="text-center" class="form-control number" value={{ item.quantity }} readonly>
-
-                        <form action="{{  url_for('cart.add_to_cart', product_id=item.product.id)  }}" method="POST" class="input-group-btn">
-                        {{ form.submit_increase }}
-                        </form>
-
-                    </div>
-                </div>
-                <div class="col p-0">
-                    <p>x {{ item.product.price }} = </p>
-                </div>
-                <div class="col p-0">{{ item.product.price * item.quantity }} </div>
-                <div class="col p-0">
-                    <form action="{{ url_for('cart.delete_product', product_id=item.product.id) }}" method="POST">
-                        <button type="submit" class="btn btn-link p-0 m-0">
-                        <img class="mx-1" src="{{ url_for('static', filename='img/del_cart.png') }}"
-                            alt="Catalog Icon" width="20" height="20">
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </li>
-    </ul>
-
-
-            </div>
-            {% endfor %}
             <div class="card mb-3 shadow-lg">
                 <div class="card-footer">
                     <p class="float-left">Итого {{ total }} товар(а) на сумму</p>
@@ -63,11 +23,9 @@
             </div>
             <!-- Закончилась разметка корзины -->
         </div>
-        <form action="{{ url_for('order.create_order')}}">
-        <button type="submit" class="btn btn-link p-0 m-0">
-            {{ form.submit_order }}
-        </button>
-        </form>
+        <a href="{{ url_for('order.create_order')}}" type="submit" class="btn btn-primary">
+            Оформить заказ
+        </a>
     </div>
 </div>
 {% else %}

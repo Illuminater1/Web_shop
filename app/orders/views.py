@@ -6,12 +6,10 @@ from app.carts.models import Cart
 from app.carts.forms import CartForm
 from app.orders.forms import OrderForm
 
-
-
 blueprint = Blueprint('order', __name__, url_prefix='/order')
 
 
-@blueprint.route('/create-order', methods=['GET','POST'])
+@blueprint.route('/create-order', methods=['GET', 'POST'])
 def create_order():
     user = current_user.id
     cart_form = CartForm()
