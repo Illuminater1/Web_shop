@@ -27,7 +27,7 @@ def register():
             flash("Вы успешно зарегистрировались")
             return redirect(url_for("user.login"))
 
-        except SQLAlchemyError as e:
+        except SQLAlchemyError:
             db.session.rollback()
             flash("Произошла ошибка при записи в базу данных")
             return redirect(url_for('user.register'))

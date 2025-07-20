@@ -18,13 +18,13 @@ def cart():
 
     form = CartForm()
     amount = 0
-    total_product = 0
+    total = 0
     for item in user_cart:
-        total_product += int(item.quantity)
+        total += int(item.quantity)
         amount += item.product.price * item.quantity
 
     return render_template('carts/cart.html', cart_items=user_cart,
-                           amount=amount, form=form, total=total_product)
+                           amount=amount, form=form, total=total)
 
 
 def get_cart_item(product_id):

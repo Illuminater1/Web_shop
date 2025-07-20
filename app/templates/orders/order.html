@@ -7,23 +7,33 @@
 
 {% block content %}
 
-<div class=" bg-white p-4 mb-4 mx-2 rounded custom-shadow">
-    <div class="container">
-        <h3 class="text-center mb-4">Выбранные товары</h3>
+{% if order_form.errors %}
+    <div class="alert alert-danger">
+        Пожалуйста, исправьте ошибки ниже.
     </div>
+{% endif %}
+
+<div class=" bg-white p-4 mb-4 mx-2 rounded custom-shadow">
     <!-- Детали заказа -->
     <div class="container">
-    {% if cart_items %}
-        {% include 'carts/cart_for_include.html'%}
+
         <h3 class="text-center">Детали заказа</h3>
+        {% if cart_items %}
+
+        {% include 'carts/cart_for_include.html'%}
         <div class="card mb-3">
             <div class="card-body">
-                <form>
+                <form action="{{ url_for('order.create_order') }}" method="POST">
+                    {{ form.hidden_tag() }}
                     <div class="row">
                         <div>
                             <div class="form-group col-md-6 mb-3">
                                 {{ order_form.first_name.label }}
                                 {{ order_form.first_name() }}
+
+                                {% for error in order_form.first_name.errors %}
+                                    <span style="color: red;">{{ error }}</span>
+                                {% endfor %}
                             </div>
                         </div>
 
@@ -31,12 +41,20 @@
                             <div class="form-group col-md-6 mb-3">
                                 {{ order_form.last_name.label }}
                                 {{ order_form.last_name() }}
+
+                                {% for error in order_form.last_name.errors %}
+                                    <span style="color: red;">{{ error }}</span>
+                                {% endfor %}
                             </div>
                         </div>
                         <div>
                             <div class="form-group col-md-6 mb-3">
                                 {{ order_form.phone_number.label }}
                                 {{ order_form.phone_number() }}
+
+                                {% for error in order_form.phone_number.errors %}
+                                    <span style="color: red;">{{ error }}</span>
+                                {% endfor %}
                             </div>
                         </div>
                         <div class="col-md-12 mb-3">
@@ -68,24 +86,23 @@
                                 {% endfor %}
                             </div>
                         </div>
-                        <form action="">
-                            {{ order_form.create_order() }}
-                        </form>
+                        <button type="submit" class="btn btn-primary">Сделать заказ</button>
                     </div>
-                </form>
+                </form>*Поля обязательные для заполнения
             </div>
-        </div>*эти поля должны быть заполнены
+        </div>
+
     </div>
-{% else %}
-<div class="alert alert-info text-center">
-    Ваша корзина пуста
-</div>
-<div class="text-center">
-    <a href="{{ url_for('shop.shop') }}" class="btn btn-primary">
-        Вернуться к покупкам
-    </a>
-</div>
-{% endif %}
+    {% else %}
+    <div class="alert alert-info text-center">
+        Ваша корзина пуста
+    </div>
+    <div class="text-center">
+        <a href="{{ url_for('shop.shop') }}" class="btn btn-primary">
+            Вернуться к покупкам
+        </a>
+    </div>
+    {% endif %}
 
 </div>
 
