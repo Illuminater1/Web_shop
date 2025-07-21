@@ -42,11 +42,22 @@ class OrderForm(FlaskForm):
     def validate_phone_number(self, field):
         data = field.data
 
-        if not data.isdigit():
-            raise ValidationError("Номер телефона должен содержать только цифры")
-
         pattern = re.compile(r'^(?:\+7|8)\d{10}$')
         if not re.match(pattern, data):
             raise ValidationError("Неверный формат номера")
-        print(data)
 
+    def validate_first_name(self, field):
+        data = field.data.strip()
+        if not data.isalpha():
+            raise ValidationError("Недопустимые символы, имя должно содержать только буквы")
+
+
+    def validate_last_name(self, field):
+        data = field.data.strip()
+        if not data.isalpha():
+            raise ValidationError("Недопустимые символы, фамилия должна содержать только буквы")
+
+    def __init__(self, default_name=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if default_name:
+            self.name.data = default_name

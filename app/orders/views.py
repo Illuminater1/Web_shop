@@ -1,12 +1,9 @@
-from itertools import product
-
-from flask import render_template, Blueprint, redirect, url_for, flash
+from flask import render_template, Blueprint, redirect, url_for, flash, request
 from flask_login import current_user, login_required
 from sqlalchemy.exc import SQLAlchemyError
-from datetime import datetime
+
 
 from app.db import db
-from app.shop.models import Product, Category
 from app.carts.models import Cart
 from app.orders.models import Order, OrderedProduct
 from app.carts.forms import CartForm
@@ -45,7 +42,6 @@ def get_user_carts(user):
         total_product += int(item.quantity)
         amount += item.product.price * item.quantity
 
-    print(user_carts)
     return {"amount": amount, "total_product": total_product, "cart_items": user_carts}
 
 
@@ -53,14 +49,21 @@ def get_user_carts(user):
 @login_required
 def create_order():
     order_form = OrderForm()
+    cart_form = CartForm()
+    user = current_user.id
+    cart_items = get_user_carts(user)["cart_items"]
+
+    if not cart_items:
+        flash("Ваша корзина пуста")
+        return redirect(url_for('cart.cart'))
 
     if order_form.validate_on_submit():
-        user = current_user.id
-        cart_items = get_user_carts(user)["cart_items"]
 
-        if not cart_items:
-            flash("Ваша корзина пуста")
-            return redirect(url_for('cart.cart'))
+        for cart_item in cart_items:
+            if cart_item.product.stocks < cart_item.quantity:
+                flash(
+                    f"Недостаточное количество товара {cart_item.product.name} на складе, в наличии {cart_item.product.quantity}")
+                return redirect(url_for('cart.cart'))
 
         try:
             order = Order(
@@ -72,10 +75,6 @@ def create_order():
             )
             db.session.add(order)
 
-            for cart_item in cart_items:
-                if cart_item.product.stocks < cart_item.quantity:
-                    flash(f"Недостаточное количество товара {cart_item.product.name} на складе, в наличии {cart_item.product.quantity}")
-                    return redirect(url_for('cart.cart'))
 
             for cart_item in cart_items:
                 product = cart_item.product
@@ -101,6 +100,8 @@ def create_order():
             return redirect(url_for('cart.cart'))
 
     else:
-        print(order_form.errors)
-        flash("Что то не так")
-        return render_template('orders/order.html', order_form=order_form)
+        return render_template("orders/order.html",
+                               order_form=order_form,
+                               cart_items=cart_items,
+                               form=cart_form)
+
