@@ -1,11 +1,17 @@
 import re
 
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, RadioField, StringField, IntegerField, TextAreaField
-from wtforms.validators import ValidationError, DataRequired, Length
+from wtforms import SubmitField, RadioField, StringField, TextAreaField, SelectField
+from wtforms.validators import ValidationError, DataRequired
 
 
 class OrderForm(FlaskForm):
+
+    AVAILABLE_STATUSES = [('new', 'Новый'),
+                              ('processing', 'В обработке'),
+                              ('shipped', 'Отправлен'),
+                              ('delivered', 'Доставлен'),
+                              ('canceled', 'Отменен'), ]
 
     first_name = StringField("Имя*:",
                              validators=[DataRequired(message="Введите имя")],
@@ -39,6 +45,8 @@ class OrderForm(FlaskForm):
                                render_kw={"class": "btn btn-primary"})
 
 
+
+
     def validate_phone_number(self, field):
         data = field.data
 
@@ -61,3 +69,5 @@ class OrderForm(FlaskForm):
         super().__init__(*args, **kwargs)
         if default_name:
             self.name.data = default_name
+
+

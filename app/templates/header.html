@@ -18,7 +18,7 @@
             <div class="col-md-3 text-end">
                 {% if current_user.is_authenticated %}
                     {% if current_user.is_admin  %}
-                        <a class="btn btn-primary" href="">Админка</a>
+                        <a class="btn btn-primary" href="{{ url_for('admin.index') }}">Админка</a>
                     {% endif %}
 
                     <a class="btn btn-outline-primary" href="{{ url_for('user.logout') }}" role="button">Выйти</a>

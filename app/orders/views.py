@@ -68,6 +68,8 @@ def create_order():
         try:
             order = Order(
                 user_id=user,
+                first_name=order_form.first_name.data,
+                last_name=order_form.last_name.data,
                 phone_number=order_form.phone_number.data,
                 delivery_method=order_form.delivery_method.data,
                 address=order_form.address.data,

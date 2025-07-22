@@ -11,6 +11,8 @@ run.bat
 
 *db
 
+migrations/
+
 # Distribution / packaging
 .Python
 build/
