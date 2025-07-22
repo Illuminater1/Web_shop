@@ -18,38 +18,25 @@ class Category(db.Model):
 
 class Product(db.Model):
     __tablename__ = 'products'
-    id = db.Column(db.Integer,
-                   primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
 
-    name = db.Column(db.String(200),
-                     nullable=False,
-                     index=True)
+    name = db.Column(db.String(200), nullable=False, index=True)
 
-    slug = db.Column(db.String(200),
-                     nullable=False)
+    slug = db.Column(db.String(200), nullable=False)
 
     description = db.Column(db.Text)
 
     image = db.Column(db.String(200))
 
-    stocks = db.Column(db.Integer,
-                       default=0)
+    stocks = db.Column(db.Integer, default=0)
 
-    price = db.Column(db.Float,
-                      nullable=False)
+    price = db.Column(db.Float, nullable=False)
 
-    category_id = db.Column(db.Integer,
-                            db.ForeignKey('categories.id'))
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
 
-    carts = db.relationship('Cart',
-                            back_populates='product')
+    carts = db.relationship('Cart', back_populates='product')
 
-    ordered_products = db.relationship('OrderedProduct',
-                                       back_populates='product')
+    ordered_products = db.relationship('OrderedProduct', back_populates='product')
 
     def __repr__(self):
         return f"<Product id: {self.id}, name: {self.name}>"
-
-
-
-

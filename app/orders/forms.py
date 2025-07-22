@@ -7,12 +7,6 @@ from wtforms.validators import ValidationError, DataRequired
 
 class OrderForm(FlaskForm):
 
-    AVAILABLE_STATUSES = [('new', 'Новый'),
-                              ('processing', 'В обработке'),
-                              ('shipped', 'Отправлен'),
-                              ('delivered', 'Доставлен'),
-                              ('canceled', 'Отменен'), ]
-
     first_name = StringField("Имя*:",
                              validators=[DataRequired(message="Введите имя")],
                              render_kw={"class": "form-control"})

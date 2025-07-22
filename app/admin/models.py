@@ -1,24 +1,28 @@
 from flask_admin.contrib.sqla import ModelView
-
-from app.orders.forms import OrderForm
 from wtforms import SelectField
 
 
 class UsersView(ModelView):
-    column_display_pk = True
-    column_list = ['id',
-                   'username',
-                   'email',
-                   'role']
+    AVAILABLE_ROLES = [('admin', 'Администратор'),
+                       ('user', 'Пользователь'),
+                       ('manager', 'Менеджер'),]
 
-    form_columns = ['username',
-                    'email',
-                    'role']
+    form_overrides = {'role': SelectField, }
+
+    column_list = ['role', 'id', 'username', 'email']
 
     column_labels = {'id': 'ID',
                      'username': 'Имя',
                      'email': 'Email',
                      'role': 'Роль', }
+
+    form_columns = ['role', 'username', 'email']
+
+    form_args = {'role': {'choices': AVAILABLE_ROLES}, 'coerce': str}
+
+    column_filters = ['role', 'email', 'username']
+
+    edit_modal = True
 
 
 class ProductView(ModelView):
@@ -32,15 +36,18 @@ class ProductView(ModelView):
 
 
 class OrdersView(ModelView):
+    AVAILABLE_STATUSES = [('new', 'Новый'),
+                          ('processing', 'В обработке'),
+                          ('shipped', 'Отправлен'),
+                          ('delivered', 'Доставлен'),
+                          ('canceled', 'Отменен'), ]
+
     form_overrides = {'status': SelectField,
-        'delivery_method': SelectField,
-        'payment': SelectField
-    }
+                      'delivery_method': SelectField,
+                      'payment': SelectField}
 
-
-
-    column_list = ['first_name', 'last_name', 'phone_number', 'delivery_method',
-                   'address','status', 'payment', 'user_id', 'created_time', 'user']
+    column_list = ['status', 'first_name', 'last_name', 'phone_number', 'delivery_method',
+                   'address', 'payment', 'created_time', 'user']
 
     column_labels = {'first_name': 'Имя',
                      'last_name': 'Фамилия',
@@ -49,26 +56,20 @@ class OrdersView(ModelView):
                      'address': 'Адрес',
                      'status': 'Статус заказа',
                      'payment': 'Оплата',
-                     'user_id': 'user_ID',
                      'created_time': 'Время создания',
-                     'user': 'Пользователь'
-                     }
+                     'user': 'Пользователь'}
 
     form_columns = ['status', 'delivery_method', 'payment',
-        'address', 'first_name', 'last_name', 'phone_number',]
+                    'address', 'first_name', 'last_name', 'phone_number', ]
 
     form_args = {
-        'status': {
-            'choices': OrderForm.AVAILABLE_STATUSES
-        },
-        'delivery_method': {
-            'choices': [('delivery', 'Доставка'), ('pickup', 'Самовывоз')]
-        },
-        'payment': {
-            'choices': [('card', 'Картой'), ('cash', 'Наличными')]
-        }
+        'status': {'choices': AVAILABLE_STATUSES},
+
+        'delivery_method': {'choices': [('delivery', 'Доставка'), ('pickup', 'Самовывоз')]},
+
+        'payment': {'choices': [('card', 'Картой'), ('cash', 'Наличными')]}
     }
 
+    edit_modal = True
 
     can_export = True
-

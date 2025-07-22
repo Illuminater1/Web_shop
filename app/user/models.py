@@ -10,7 +10,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     username = db.Column(db.String(), nullable=False)
     password = db.Column(db.String())
-    role = db.Column(db.String(10), default='user')
+    role = db.Column(db.String(20), nullable=False, default='user')
 
     cart = db.relationship("Cart", back_populates="user")
     orders = db.relationship("Order", back_populates="user")
@@ -26,5 +26,5 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password, password)
 
     def __repr__(self):
-        return f"<User id: {self.id} - name: {self.email}>"
+        return f"<User {self.email}>"
 

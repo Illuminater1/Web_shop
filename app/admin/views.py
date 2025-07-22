@@ -28,10 +28,10 @@ def init_admin(app):
 
     admin.add_view(OrdersView(Order, db.session, name='Заказы', endpoint='admin_orders'))
 
-    admin.add_view(ModelView(Category, db.session, name='Категории'))
+    # admin.add_view(ModelView(Category, db.session, name='Категории'))
 
-    admin.add_view(ProductView(Product, db.session, name='Товары'))
+    # admin.add_view(ProductView(Product, db.session, name='Товары'))
 
-    admin.add_view(ModelView(OrderedProduct, db.session, name='Заказанные товары'))
+    # admin.add_view(ModelView(OrderedProduct, db.session, name='Заказанные товары'))
 
     admin.init_app(app)
