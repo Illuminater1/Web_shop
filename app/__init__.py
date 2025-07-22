@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 from flask_login import LoginManager
 from flask_migrate import Migrate
-
+from flask_babel import Babel
 
 from app.db import db
 from app.shop.models import Category, Product
@@ -15,7 +15,6 @@ from app.config import SECRET_KEY
 
 from app.user.views import blueprint as user_blueprint
 from app.shop.views import blueprint as shop_blueprint
-# from app.admin.views import blueprint as admin_blueprint
 from app.main.views import blueprint as main_blueprint
 from app.carts.views import blueprint as cart_blueprint
 from app.orders.views import blueprint as orders_blueprint
@@ -28,6 +27,7 @@ def create_app():
 
     db.init_app(app)
     migrate = Migrate(app, db)
+    babel = Babel(app)
 
 
     login_manager = LoginManager()
@@ -38,7 +38,6 @@ def create_app():
 
 
     app.register_blueprint(shop_blueprint)
-    # app.register_blueprint(admin_blueprint)
     app.register_blueprint(main_blueprint)
     app.register_blueprint(cart_blueprint)
     app.register_blueprint(orders_blueprint)
