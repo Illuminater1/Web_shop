@@ -30,7 +30,7 @@ def init_admin(app):
 
     # admin.add_view(ModelView(Category, db.session, name='Категории'))
 
-    # admin.add_view(ProductView(Product, db.session, name='Товары'))
+    admin.add_view(ProductView(Product, db.session, name='Товары'))
 
     # admin.add_view(ModelView(OrderedProduct, db.session, name='Заказанные товары'))
 
