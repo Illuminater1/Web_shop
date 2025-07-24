@@ -3,6 +3,7 @@
         <div class="container" id="cart-items-container">
 
             {% for item in cart_items %}
+            {% if item %}
             <div class="card mb-3 text-bg-light shadow-lg">
                 <div class="card-header">
                     <h5 class="card-title">{{ item.product.name }}</h5>
@@ -45,8 +46,14 @@
                         </div>
                     </li>
                 </ul>
-
-
+                {% else %}
+                <div class="alert alert-warning">
+                    Товар был удален
+                    <form action="{{ url_for('cart.delete_cart', cart=item) }}" method="POST">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Очистить</button>
+                    </form>
+                </div>
+                {% endif %}
             </div>
             {% endfor %}
             <div class="card mb-3 shadow-lg">

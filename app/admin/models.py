@@ -67,7 +67,6 @@ class ProductView(ModelView):
     def _list_thumbnail(view, context, model, name):
         if not model.image:
             return ''
-
         url = url_for('static', filename=os.path.join('media', model.image))
         return Markup(f'<img src="{url}" width="100">')
 

@@ -13,17 +13,17 @@
                 <li><a href="{{ url_for('shop.shop') }}" class="nav-link px-2">Магазин</a></li>
                 <li><a href="{{ url_for('main.contacts') }}" class="nav-link px-2">Контакты</a></li>
                 <li><a href="{{ url_for('main.questions') }}" class="nav-link px-2">FAQs</a></li>
-                <li><a href="{{ url_for('main.about') }}" class="nav-link px-2">О нас</a></li>
+                {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('user.profile') }}" class="nav-link px-2">Личный кабинет</a></li>
+                {% endif %}
             </ul>
             <div class="col-md-3 text-end">
                 {% if current_user.is_authenticated %}
                     {% if current_user.is_admin  %}
                         <a class="btn btn-primary" href="{{ url_for('admin.index') }}">Админка</a>
                     {% endif %}
-
                     <a class="btn btn-outline-primary" href="{{ url_for('user.logout') }}" role="button">Выйти</a>
                     <a class="btn btn-outline-primary" href="{{ url_for('cart.cart') }}" role="button">Корзина</a>
-
                 {% else %}
                     <a class="btn btn-outline-primary" href="{{ url_for('user.login') }}" role="button">Войти</a>
                     <a class="btn btn-primary" href="{{ url_for('user.register') }}">Зарегистрироваться</a>

@@ -2,11 +2,11 @@ from flask import render_template, Blueprint, redirect, url_for, flash, request
 from flask_login import current_user, login_required
 from sqlalchemy.exc import SQLAlchemyError
 
-
 from app.db import db
 from app.carts.models import Cart
 from app.orders.models import Order, OrderedProduct
 from app.carts.forms import CartForm
+from app.carts.views import get_user_carts
 from app.orders.forms import OrderForm
 
 blueprint = Blueprint('order', __name__, url_prefix='/order')
@@ -32,17 +32,6 @@ def preview_orders():
                            total=total_product,
                            amount=amount)
 
-
-def get_user_carts(user):
-    user_carts = Cart.query.filter_by(user_id=user).all()
-
-    amount = 0
-    total_product = 0
-    for item in user_carts:
-        total_product += int(item.quantity)
-        amount += item.product.price * item.quantity
-
-    return {"amount": amount, "total_product": total_product, "cart_items": user_carts}
 
 
 @blueprint.route('/process-order', methods=['GET', 'POST'])
@@ -77,7 +66,6 @@ def create_order():
             )
             db.session.add(order)
 
-
             for cart_item in cart_items:
                 product = cart_item.product
                 ordered_product = OrderedProduct(
@@ -106,4 +94,3 @@ def create_order():
                                order_form=order_form,
                                cart_items=cart_items,
                                form=cart_form)
-

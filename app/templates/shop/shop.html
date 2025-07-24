@@ -26,7 +26,7 @@
     {% for product in products %}
         <div class="col">
             <div class="card border-primary rounded custom-shadow">
-                <img src="../deps/images/goods/set of tea table and three chairs.jpg" class="card-img-top" alt="...">
+                <img src="{{ url_for('static', filename='media/products/' + product.image) }}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <a href="{{ url_for('shop.product', product_id=product.id)}}">
                         <p class="card-title">{{ product.name }}</p>

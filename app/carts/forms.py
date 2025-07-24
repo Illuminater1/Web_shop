@@ -11,3 +11,4 @@ class CartForm(FlaskForm):
     submit_order = SubmitField("Оформить заказ", render_kw={"class": "btn btn-primary"})
 
 
+

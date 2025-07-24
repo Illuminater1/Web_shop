@@ -4,6 +4,12 @@ from app.user.forms import LoginForm, RegistrationForm
 from app.user.models import User, db
 from sqlalchemy.exc import SQLAlchemyError
 
+
+from app.carts.forms import CartForm
+from app.orders.forms import OrderForm
+from app.orders.models import Order, OrderedProduct
+from app.carts.views import get_user_carts
+
 blueprint = Blueprint('user', __name__,
                       url_prefix='/user',
                       template_folder='templates/user')
@@ -65,4 +71,33 @@ def logout():
     logout_user()
     flash('Вы успешно вышли')
     return redirect(url_for('main.index'))
+
+
+@blueprint.route('/profile')
+def profile():
+    if current_user.is_anonymous:
+        flash('Для доступа в личный кабинет авторизуйтесь')
+        return redirect(url_for("user.login"))
+    #Отображение корзины
+    cart_form = CartForm()
+    user = current_user.id
+
+    user_carts = get_user_carts(user)
+    amount = user_carts['amount']
+    total_product = user_carts['total_product']
+    cart_items = user_carts['cart_items']
+
+    #Отображение заказа
+    orders = Order.query.filter_by(user_id=user).all()
+
+    print(orders)
+
+    return render_template('user/profile.html',
+                           content='Заказ',
+                           cart_items=cart_items,
+                           form=cart_form,
+                           orders=orders,
+                           total=total_product,
+                           amount=amount)
+
 

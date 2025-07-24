@@ -20,6 +20,11 @@ class Order(db.Model):
     user = db.relationship("User", back_populates="orders")
     ordered_products = db.relationship("OrderedProduct", back_populates="order")
 
+    @property
+    def total_amount(self):
+        return sum(op.price * op.quantity for op in self.ordered_products)
+
+
     def __repr__(self):
         return f"<Order - {self.id}, user: {self.user_id}>"
 
