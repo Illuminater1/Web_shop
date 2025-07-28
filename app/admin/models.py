@@ -1,8 +1,7 @@
 import os
 
-from PIL import Image, ImageOps
 
-from flask import url_for, flash, current_app
+from flask import url_for
 from markupsafe import Markup
 
 from flask_admin import form

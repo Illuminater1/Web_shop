@@ -2,8 +2,8 @@ from flask import current_app
 from flask_admin.form import SecureForm
 from app.shop.models import Category
 from flask_wtf.file import FileAllowed, FileRequired
-from wtforms import StringField, IntegerField, TextAreaField, FloatField, FileField, SelectField
-from wtforms.validators import ValidationError, DataRequired
+from wtforms import StringField, IntegerField, TextAreaField, FloatField, FileField
+from wtforms.validators import DataRequired
 import secrets
 from PIL import Image
 import os

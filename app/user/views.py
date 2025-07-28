@@ -6,8 +6,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 
 from app.carts.forms import CartForm
-from app.orders.forms import OrderForm
-from app.orders.models import Order, OrderedProduct
+from app.orders.models import Order
 from app.carts.views import get_user_carts
 
 blueprint = Blueprint('user', __name__,

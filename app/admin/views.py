@@ -1,10 +1,9 @@
 from flask import url_for, redirect
 from flask_admin import Admin, AdminIndexView
-from flask_admin.contrib.sqla import ModelView
 
 from app.user.models import User
-from app.orders.models import Order, OrderedProduct
-from app.shop.models import Product, Category
+from app.orders.models import Order
+from app.shop.models import Product
 from app.admin.models import UsersView, OrdersView, ProductView
 from app.db import db
 from flask_login import current_user
