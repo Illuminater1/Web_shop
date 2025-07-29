@@ -24,7 +24,6 @@ class Order(db.Model):
     def total_amount(self):
         return sum(op.price * op.quantity for op in self.ordered_products)
 
-
     def __repr__(self):
         return f"<Order - {self.id}, user: {self.user_id}>"
 
@@ -33,8 +32,8 @@ class OrderedProduct(db.Model):
     __tablename__ = 'ordered_products'
 
     id = db.Column(db.Integer, primary_key=True)
-    order_id = db.Column(db.Integer, db.ForeignKey('orders.id'), nullable=False)
-    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
+    order_id = db.Column(db.Integer, db.ForeignKey('orders.id', ondelete='CASCADE'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id', ondelete='SET NULL'), nullable=False)
     name = db.Column(db.String(200))
     quantity = db.Column(db.Integer, default=1)
     price = db.Column(db.Float())

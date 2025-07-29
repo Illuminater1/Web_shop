@@ -2,9 +2,9 @@ from flask import url_for, redirect
 from flask_admin import Admin, AdminIndexView
 
 from app.user.models import User
-from app.orders.models import Order
-from app.shop.models import Product
-from app.admin.models import UsersView, OrdersView, ProductView
+from app.orders.models import Order, OrderedProduct
+from app.shop.models import Product, Category
+from app.admin.models import UsersView, OrdersView, ProductView, CategoryView, OrderedProductView
 from app.db import db
 from flask_login import current_user
 
@@ -27,10 +27,10 @@ def init_admin(app):
 
     admin.add_view(OrdersView(Order, db.session, name='Заказы', endpoint='admin_orders'))
 
-    # admin.add_view(ModelView(Category, db.session, name='Категории'))
+    admin.add_view(CategoryView(Category, db.session, name='Категории', endpoint='admin_category'))
 
     admin.add_view(ProductView(Product, db.session, name='Товары'))
 
-    # admin.add_view(ModelView(OrderedProduct, db.session, name='Заказанные товары'))
+    admin.add_view(OrderedProductView(OrderedProduct, db.session, name='Заказанные товары'))
 
     admin.init_app(app)
