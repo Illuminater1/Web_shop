@@ -18,25 +18,31 @@
     </div>
     <div class="carousel-inner">
         <div class="carousel-item active">
+            <a href="/shop/cat/2">
             <img src="{{ url_for('static', filename='img/fiona.jpg') }}" height="600" width="500" class="d-block w-100" alt="...">
             <div class="carousel-caption d-none d-md-block">
                 <h5>Женщинам</h5>
                 <p>Некоторый репрезентативный заполнитель для первого слайда.</p>
             </div>
+            </a>
         </div>
         <div class="carousel-item">
+            <a href="/shop/cat/1">
             <img src="{{ url_for('static', filename='img/shrek.jpg') }}" height="600" width="500" class="d-block w-100" alt="...">
             <div class="carousel-caption d-none d-md-block">
                 <h5>Мужчинам</h5>
                 <p>Некоторый репрезентативный заполнитель для второго слайда.</p>
             </div>
+                </a>
         </div>
         <div class="carousel-item">
+            <a href="/shop/cat/3">
             <img src="{{ url_for('static', filename='img/childs.jpg') }}" height="600" width="500" class="d-block w-100" alt="...">
             <div class="carousel-caption d-none d-md-block">
                 <h5>Детям</h5>
                 <p>Некоторый репрезентативный заполнитель для третьего слайда.</p>
             </div>
+            </a>
         </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
@@ -49,13 +55,13 @@
     </button>
 </div>
 
-<div class="row justify-content-center">
-    <p>
-        <a href="/shop/cat/0" class="btn btn-primary my-2">Все товары</a>
-        <a href="/shop/cat/2" class="btn btn-primary my-2">Для женщин</a>
-        <a href="/shop/cat/1" class="btn btn-primary my-2">Для мужчин</a>
-        <a href="/shop/cat/3" class="btn btn-primary my-2">Для детей</a>
-    </p>
-</div>
+<!--<div class="row justify-content-center">-->
+<!--    <p>-->
+<!--        <a href="/shop/cat/0" class="btn btn-primary my-2">Все товары</a>-->
+<!--        <a href="/shop/cat/2" class="btn btn-primary my-2">Для женщин</a>-->
+<!--        <a href="/shop/cat/1" class="btn btn-primary my-2">Для мужчин</a>-->
+<!--        <a href="/shop/cat/3" class="btn btn-primary my-2">Для детей</a>-->
+<!--    </p>-->
+<!--</div>-->
 
 {% endblock %}

@@ -15,7 +15,7 @@ class AdminView(AdminIndexView):
         return current_user.is_authenticated and current_user.role == 'admin'
 
     def inaccessible_callback(self, name, **kwargs):
-        return redirect(url_for('login.login'))
+        return redirect(url_for('user.login'))
 
 
 admin = Admin(name='АДМИНКА', template_mode='bootstrap4',
