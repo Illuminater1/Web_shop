@@ -1,5 +1,4 @@
 import os
-from datetime import datetime
 
 from flask import url_for
 from markupsafe import Markup
@@ -94,14 +93,6 @@ class ProductView(ModelView):
             thumbgen=(100, 100, True)
         )}
 
-    # делает slug необязательным
-
-    form_args = {
-        'slug': {
-            'validators': [Optional()],
-            'label': 'URL-адрес'
-        }
-    }
 
     def on_model_change(self, form, model, is_created):
 
@@ -200,8 +191,8 @@ class OrderedProductView(ModelView):
                      'price': 'цена',
                      'created timestamp': 'Дата заказа'
 
-    }
-    column_filters = ['order.id','price', 'name', 'quantity', 'created_timestamp', 'product.id']
+                     }
+    column_filters = ['order.id', 'price', 'name', 'quantity', 'created_timestamp', 'product.id']
 
     def _time_formatter(view, context, model, name):
         return model.created_timestamp.strftime('%d.%m.%Y %H:%M:%S')

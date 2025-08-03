@@ -1,5 +1,64 @@
 {% extends 'admin/master.html' %}
 
 {% block body %}
-  <p>Hello world</p>
+    {% if new_orders %}
+    <div class="col-md-12">
+        <div class="bg-white p-4 mb-4 mx-2 rounded">
+            <h3 class="text-center mb-4">Мои заказы</h3>
+
+            <div id="ordersAccordion">
+                {% for order in new_orders %}
+                <div class="card mb-2">
+                    <div class="card-header" id="heading{{ order.id }}">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse"
+                                    data-target="#collapse{{ order.id }}"
+                                    aria-expanded="false"
+                                    aria-controls="collapse{{ order.id }}">
+                                Заказ № {{ order.id }} - {{ order.created_time.strftime('%d.%m.%Y %H:%M') }} |
+                                Статус: <span class="badge badge-primary">{{ order.status }}</span>
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div id="collapse{{ order.id }}" class="collapse"
+                         aria-labelledby="heading{{ order.id }}"
+                         data-parent="#ordersAccordion">
+                        <div class="card-body">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Товар</th>
+                                        <th>Количество</th>
+                                        <th>Цена</th>
+                                        <th>Общая стоимость</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for product in order.ordered_products %}
+                                    <tr>
+                                        <td>
+                                            <a href="{{ url_for('shop.product', product_id=product.product_id)}}">
+                                                {{ product.name }}
+                                            </a>
+                                        </td>
+                                        <td>{{ product.quantity }}</td>
+                                        <td>{{ product.price }} ₽</td>
+                                        <td>{{ product.quantity * product.price }} ₽</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="d-flex justify-content-between mt-3">
+                                <strong>Итого:</strong>
+                                <strong>{{ order.total_amount }} ₽</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
 {% endblock %}
