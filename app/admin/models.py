@@ -7,7 +7,6 @@ from app.db import db
 from flask_admin import form
 from slugify import slugify
 from wtforms import SelectField
-from wtforms.validators import Optional
 import secrets
 
 from flask_admin.contrib.sqla import ModelView
@@ -102,16 +101,11 @@ class ProductView(ModelView):
         # Создание slug
         name = form.name.data
         if not form.slug.data and name:
-            model.slug = f"{slugify(self.name)}-{str(self.id)}"
+            model.slug = f"{slugify(name)}-{str(model.id)}"
 
         # сохранение товара
         super().on_model_change(form, model, is_created)
 
-    def create_form(self, obj=None):
-        return super(ProductView, self).create_form(obj)
-
-    def edit_form(self, obj=None):
-        return super(ProductView, self).edit_form(obj)
 
 
 class OrdersView(ModelView):

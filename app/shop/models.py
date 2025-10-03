@@ -1,5 +1,5 @@
 from app.db import db
-from slugify import slugify
+
 
 class Category(db.Model):
     __tablename__ = 'categories'
@@ -16,7 +16,7 @@ class Product(db.Model):
     __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False, index=True)
-    slug = db.Column(db.String(200), nullable=False, unique=True, index=True)
+    slug = db.Column(db.String(200), unique=True, index=True)
     description = db.Column(db.Text)
     image = db.Column(db.String(200))
     stocks = db.Column(db.Integer, default=0)

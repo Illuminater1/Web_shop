@@ -1,6 +1,5 @@
 from flask import current_app
 from flask_admin.form import SecureForm
-from app.shop.models import Category
 from flask_wtf.file import FileAllowed, FileRequired
 from wtforms import StringField, IntegerField, TextAreaField, FloatField, FileField
 from wtforms.validators import DataRequired
@@ -11,18 +10,12 @@ import os
 
 class CreateProduct(SecureForm):
     name = StringField('Название', validators=[DataRequired()])
-
     description = TextAreaField('Описание')
-
     stocks = IntegerField('В наличии', validators=[DataRequired()])
-
     price = FloatField('Цена')
-
-    # category = SelectField('Категория', choices=[(str(c.id), c.name) for c in Category.query.all()])
-
-    image = FileField('Загрузите файл', validators=[
-                                                FileRequired(),
-                                                FileAllowed(['jpg', 'jpeg', 'png', 'gif'], 'Только изображения!')])
+    image = FileField('Загрузите файл',
+                      validators=[FileRequired(),
+                                  FileAllowed(['jpg', 'jpeg', 'png', 'gif'], 'Только изображения!')])
 
 
 def save_file(form, file_field):
